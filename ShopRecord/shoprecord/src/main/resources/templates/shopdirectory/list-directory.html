@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Record Directory</title>
+    <!-- template from bootstrap-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<!-- div: Defines a section in a document -->
+<div class="container">
+    <h3>Shop List Directory</h3>
+    <!-- hr: defines a thematic break in an HTML page -->
+    <hr>
+    <!-- Add a button -->
+    <a th:href="@{/shoprecord/showFormForAddShop}"
+        class="btn btn-primary btn-sm mb-3">
+        Add Shop Item
+    </a>
+    <a th:href="@{/shoprecord/searchFormForShop}"
+       class="btn btn-primary btn-sm mb-3">
+        Search Shop Item
+    </a>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Store Name</th>
+                <th>Date</th>
+                <th>Special Deal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+                <!--for each loop tempshoplist.entity's attribute -->
+            <tr th:each="tempShopList : ${shopsitem}">
+                <td th:text="${tempShopList.item}"/>
+                <td th:text="${tempShopList.price}"/>
+                <td th:text="${tempShopList.storeName}"/>
+                <td th:text="${tempShopList.date}"/>
+                <td th:text="${tempShopList.specialDeal}"/>
+                <!-- Add update button Link -->
+                <td>
+                    <a th:href="@{/shoprecord/showFormForShopUpdate(shopId=${tempShopList.id})}"
+                        class="btn btn-info btn-sm">
+                        Update
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h3>Store List Directory</h3>
+    <!-- hr: defines a thematic break in an HTML page -->
+    <hr>
+    <!-- Add a button -->
+    <a th:href="@{/shoprecord/showFormForAddStore}"
+       class="btn btn-primary btn-sm mb-3">
+        Add Store
+    </a>
+    <a th:href="@{/shoprecord/searchFormForStore}"
+       class="btn btn-primary btn-sm mb-3">
+        Search Store
+    </a>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Store Name</th>
+            <th>Rank</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!--for each loop tempshoplist.entity's attribute -->
+        <tr th:each="tempStoreList : ${stores}">
+            <td th:text="${tempStoreList.store}"/>
+            <td th:text="${tempStoreList.rank}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
