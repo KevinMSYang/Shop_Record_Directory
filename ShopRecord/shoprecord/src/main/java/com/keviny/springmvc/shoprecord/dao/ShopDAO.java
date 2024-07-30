@@ -19,5 +19,7 @@ public interface ShopDAO {
 
     void deleteByShopItem(String theShopItem);
 
+    void deleteById(int theId);
+
     public List<Shop> findallShopListOrderByItem();
 }

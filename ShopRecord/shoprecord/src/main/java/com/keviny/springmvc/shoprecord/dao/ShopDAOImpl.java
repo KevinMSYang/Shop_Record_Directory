@@ -70,6 +70,12 @@ public class ShopDAOImpl implements ShopDAO {
     }
 
     @Override
+    public void deleteById(int theId) {
+        Shop theShop = entityManager.find(Shop.class,theId);
+        entityManager.remove(theShop);
+    }
+
+    @Override
     public List<Shop> findallShopListOrderByItem() {
         TypedQuery<Shop> theQuery = entityManager.createQuery(
                 "SELECT s FROM Shop s ORDER BY s.item", Shop.class

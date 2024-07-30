@@ -15,4 +15,6 @@ public interface StoreDAO {
     Store saveStore(Store theStore);
 
     void deleteByStoreName(String theStoreName);
+
+    void deleteById(int theId);
 }

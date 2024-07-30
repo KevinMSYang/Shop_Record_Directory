@@ -70,4 +70,10 @@ public class StoreDAOImpl implements StoreDAO{
         // remove store
         entityManager.remove(storeName);
     }
+
+    @Override
+    public void deleteById(int theId) {
+        Store theStore = entityManager.find(Store.class, theId);
+        entityManager.remove(theStore);
+    }
 }

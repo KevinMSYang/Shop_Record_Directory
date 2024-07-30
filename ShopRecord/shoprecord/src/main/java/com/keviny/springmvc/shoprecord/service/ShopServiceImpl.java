@@ -49,4 +49,10 @@ public class ShopServiceImpl implements ShopService {
     public void deleteByShopItem(String theShopItem) {
         shopDAO.deleteByShopItem(theShopItem);
     }
+
+    @Transactional
+    @Override
+    public void deleteById(int theId) {
+        shopDAO.deleteById(theId);
+    }
 }

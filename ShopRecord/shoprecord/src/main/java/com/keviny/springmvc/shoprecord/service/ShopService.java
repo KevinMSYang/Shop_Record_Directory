@@ -16,4 +16,6 @@ public interface ShopService {
     Shop saveShopItem(Shop theShop);
 
     void deleteByShopItem(String theShopItem);
+
+    void deleteById(int theId);
 }

@@ -16,6 +16,9 @@
 
     <form action="#" th:action="@{/shoprecord/saveStore}"
           th:object="${stores}" method="POST">
+        <!-- Add hidden form field to handle the updete -->
+        <input type="hidden" th:field="*{id}">
+        <!-- end hidden form -->
         <input type="text" th:field="*{store}"
                class="form-control mb-4 w-25" placeholder="store name">
         <input type="number" th:field="*{rank}"

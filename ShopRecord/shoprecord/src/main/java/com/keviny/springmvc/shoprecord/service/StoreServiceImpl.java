@@ -44,4 +44,10 @@ public class StoreServiceImpl implements StoreService {
     public void deleteByStoreName(String theStoreName) {
         storeDAO.deleteByStoreName(theStoreName);
     }
+
+    @Transactional
+    @Override
+    public void deleteById(int theId) {
+        storeDAO.deleteById(theId);
+    }
 }
