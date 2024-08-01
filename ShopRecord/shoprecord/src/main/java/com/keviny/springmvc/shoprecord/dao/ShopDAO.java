@@ -22,4 +22,6 @@ public interface ShopDAO {
     void deleteById(int theId);
 
     public List<Shop> findallShopListOrderByItem();
+
+    List<Shop> getShopItems();
 }

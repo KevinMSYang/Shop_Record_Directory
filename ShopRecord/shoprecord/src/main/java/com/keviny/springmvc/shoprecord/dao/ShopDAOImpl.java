@@ -83,4 +83,9 @@ public class ShopDAOImpl implements ShopDAO {
         List<Shop> shopes = theQuery.getResultList();
         return shopes;
     }
+
+    @Override
+    public List<Shop> getShopItems() {
+        return List.of();
+    }
 }

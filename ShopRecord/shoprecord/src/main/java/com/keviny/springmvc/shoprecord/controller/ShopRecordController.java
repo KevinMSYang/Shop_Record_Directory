@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Controller
@@ -123,9 +125,22 @@ public class ShopRecordController {
         return "shopdirectory/store-list.html";
     }
 
-    @GetMapping("/spending")
-    public String spending(Model theModel) {
+    @GetMapping("/spendChart")
+    public String getSpendChart(Model model) {
+        List<Shop> shopItems = shopService.findAllShopList(); // Fetch your shop items from service
 
-        return "shopdirectory/spending";
+        // Calculate total price
+        BigDecimal totalPrice = shopItems.stream()
+                .map(item -> new BigDecimal(item.getPrice()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Round to 2 decimal places
+        totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP);
+
+        // Add attributes to the model
+        model.addAttribute("shopItems", shopItems);
+        model.addAttribute("totalPrice", totalPrice);
+
+        return "shopdirectory/spend-chart";
     }
 }

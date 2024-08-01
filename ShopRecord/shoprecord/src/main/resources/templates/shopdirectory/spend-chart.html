@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spending Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Spending Chart</h1>
+
+<!-- Debugging section -->
+<p>Total Price: <span th:text="${totalPrice}"></span></p>
+<hr>
+
+<p>Time: <span th:text="${shopItems}"></span></p>
+
+<div style="width: 80%; margin: auto;">
+    <canvas id="spendChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('spendChart').getContext('2d');
+        const itemLabels = [];
+        const itemPrices = [];
+
+        /*[[${shopItems}]]*/.forEach(item => {
+            itemLabels.push(item.name); // Ensure 'name' is a valid property of your ShopItem
+            itemPrices.push(parseFloat(item.price)); // Ensure 'price' is a valid property and properly parsed
+        });
+
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: itemLabels,
+                datasets: [{
+                    label: 'Item Prices',
+                    data: itemPrices,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

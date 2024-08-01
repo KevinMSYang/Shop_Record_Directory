@@ -11,14 +11,14 @@
 
 <div class="container">
     <h3>Spending Chart</h3>
-    <canvas id="spendChart" width="400" height="200"></canvas>
+    <canvas id="spending" width="400" height="200"></canvas>
     <script>
         // Extract data from Thymeleaf
         const shopItems = /*[[${shopItems}]]*/ [];
 
         // Prepare data for the chart
-        const labels = shopItems.map(item => item.name);
-        const data = shopItems.map(item => item.cost);
+        const labels = shopItems.map(item => item.item);
+        const data = shopItems.map(item => item.price);
 
         // Create the chart
         const ctx = document.getElementById('spendChart').getContext('2d');
