@@ -6,7 +6,6 @@ import com.keviny.springmvc.shoprecord.service.ShopService;
 import com.keviny.springmvc.shoprecord.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +29,6 @@ public class ShopRecordController {
         List<Shop> theShops = shopService.findAllShopList();
         // add to the spring model
         theModel.addAttribute("shops", theShops);
-
-        List<Store> theStores = storeService.findAllStoreList();
-        theModel.addAttribute("stores", theStores);
-
         return "shopdirectory/list-directory";
     }
 
@@ -119,5 +114,18 @@ public class ShopRecordController {
         Store theStore = storeService.findByStoreName(storeName);
         theModel.addAttribute("stores", theStore);
         return "shopdirectory/store-Search";
+    }
+
+    @GetMapping("/showFormForStore")
+    public String showFormForStore(Model theModel) {
+        List<Store> theStores = storeService.findAllStoreList();
+        theModel.addAttribute("stores", theStores);
+        return "shopdirectory/store-list.html";
+    }
+
+    @GetMapping("/spending")
+    public String spending(Model theModel) {
+
+        return "shopdirectory/spending";
     }
 }
