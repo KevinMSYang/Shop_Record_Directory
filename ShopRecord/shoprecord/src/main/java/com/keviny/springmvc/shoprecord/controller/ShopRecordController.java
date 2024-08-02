@@ -5,13 +5,16 @@ import com.keviny.springmvc.shoprecord.entity.Store;
 import com.keviny.springmvc.shoprecord.service.ShopService;
 import com.keviny.springmvc.shoprecord.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/shoprecord")
@@ -26,13 +29,32 @@ public class ShopRecordController {
     }
 
     @GetMapping("/list")
-    public String listDirectory(Model theModel) {
-        // get the shoplist from db
-        List<Shop> theShops = shopService.findAllShopList();
-        // add to the spring model
-        theModel.addAttribute("shops", theShops);
+    public String listShops(
+            @RequestParam(value = "sort", defaultValue = "item") String sort,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction,
+            Model theModel
+    ) {
+        List<Shop> shops;
+        if ("desc".equalsIgnoreCase(direction)) {
+            shops = shopService.findAllSortBy(sort, Sort.Direction.DESC);
+        }
+        else {
+            shops = shopService.findAllSortBy(sort, Sort.Direction.ASC);
+        }
+
+        theModel.addAttribute("shops", shops);
+        theModel.addAttribute("sortDirection", direction.equals("asc")? "desc" : "asc");
         return "shopdirectory/list-directory";
     }
+
+//    @GetMapping("/list")
+//    public String listDirectory(Model theModel) {
+//        // get the shoplist from db
+//        List<Shop> theShops = shopService.findAllShopList();
+//        // add to the spring model
+//        theModel.addAttribute("shops", theShops);
+//        return "shopdirectory/list-directory";
+//    }
 
     @GetMapping("/showFormForAddShop")
     public String showFormForAddShop(Model theModel) {
@@ -126,21 +148,19 @@ public class ShopRecordController {
     }
 
     @GetMapping("/spendChart")
-    public String getSpendChart(Model model) {
+    public String getSpendChart(Model theModel) {
         List<Shop> shopItems = shopService.findAllShopList(); // Fetch your shop items from service
 
-        // Calculate total price
-        BigDecimal totalPrice = shopItems.stream()
-                .map(item -> new BigDecimal(item.getPrice()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        // separate date and sum up the price in certain date
+        Map<String, Double> map = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        for (Shop eachShopItem : shopItems) {
+            String formattedDate = sdf.format(eachShopItem.getDate());
+            double price = Double.parseDouble(eachShopItem.getPrice());
+            map.put(formattedDate, map.getOrDefault(formattedDate, 0.0) + price);
+        }
 
-        // Round to 2 decimal places
-        totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP);
-
-        // Add attributes to the model
-        model.addAttribute("shopItems", shopItems);
-        model.addAttribute("totalPrice", totalPrice);
-
-        return "shopdirectory/spend-chart";
+        theModel.addAttribute("chartData", map);
+        return "shopdirectory/google-charts";
     }
 }

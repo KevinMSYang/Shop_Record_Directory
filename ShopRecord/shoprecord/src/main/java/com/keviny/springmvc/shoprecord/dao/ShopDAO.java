@@ -24,4 +24,5 @@ public interface ShopDAO {
     public List<Shop> findallShopListOrderByItem();
 
     List<Shop> getShopItems();
+
 }

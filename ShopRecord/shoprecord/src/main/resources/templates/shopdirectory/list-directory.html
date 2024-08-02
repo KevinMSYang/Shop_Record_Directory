@@ -45,10 +45,10 @@
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Store Name</th>
-                <th>Date</th>
+                <th><a href="#" th:href="@{/shoprecord/list(sort='item', direction=${sortDirection})}">Item</a></th>
+                <th><a href="#" th:href="@{/shoprecord/list(sort='price', direction=${sortDirection})}">Price</a></th>
+                <th><a href="#" th:href="@{/shoprecord/list(sort='storeName', direction=${sortDirection})}">Store</a></th>
+                <th><a href="#" th:href="@{/shoprecord/list(sort='date', direction=${sortDirection})}">Date</a></th>
                 <th>Special Deal</th>
                 <th>Action</th>
             </tr>

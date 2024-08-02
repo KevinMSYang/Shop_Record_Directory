@@ -1,0 +1,98 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Shop Record Directory - Spending</title>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 1000px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="chart-container">
+        <h2>Spending By Date</h2>
+        <div id="chart_div" style="width: 900px; height: 500px;"></div>
+        <div id="piechart" style="width: 900px; height: 500px;"></div>
+        <div id="linechart" style="width: 900px; height: 500px;"></div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var real_data = /*[[${chartData}]]*/'noValue';
+
+    $(document).ready(function() {
+        google.charts.load('current', {
+            packages: ['corechart', 'bar', 'line']
+        });
+        google.charts.setOnLoadCallback(drawColumnChart);
+        google.charts.setOnLoadCallback(drawPieChart);
+        google.charts.setOnLoadCallback(drawLineChart);
+    });
+
+    function drawColumnChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Price');
+        Object.keys(real_data).forEach(function(key) {
+            data.addRow([key, parseFloat(real_data[key])]); // Ensure values are numeric
+        });
+        var options = {
+            title: 'Bar Chart',
+            hAxis: { title: 'Date' },
+            vAxis: { title: 'Price' }
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+
+    function drawPieChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Price');
+        Object.keys(real_data).forEach(function(key) {
+            data.addRow([key, parseFloat(real_data[key])]); // Ensure values are numeric
+        });
+        var options = {
+            title: 'Pie Chart'
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+
+    function drawLineChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Price');
+        Object.keys(real_data).forEach(function(key) {
+            data.addRow([key, parseFloat(real_data[key])]); // Ensure values are numeric
+        });
+        var options = {
+            title: 'Line Chart',
+            hAxis: { title: 'Date' },
+            vAxis: { title: 'Price' },
+            curveType: 'function', // Smooth line chart
+            legend: { position: 'bottom' }
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+        chart.draw(data, options);
+    }
+</script>
+<hr>
+<a th:href="@{/shoprecord/list}" class="btn btn-primary btn-sm mb-3">Back to List</a>
+</body>
+</html>

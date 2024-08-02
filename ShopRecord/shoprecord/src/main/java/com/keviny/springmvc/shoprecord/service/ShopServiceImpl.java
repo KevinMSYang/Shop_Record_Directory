@@ -2,7 +2,9 @@ package com.keviny.springmvc.shoprecord.service;
 
 import com.keviny.springmvc.shoprecord.dao.ShopDAO;
 import com.keviny.springmvc.shoprecord.entity.Shop;
+import com.keviny.springmvc.shoprecord.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +12,9 @@ import java.util.List;
 
 @Service
 public class ShopServiceImpl implements ShopService {
+
+    @Autowired
+    private ShopRepository shopRepository;
 
     private ShopDAO shopDAO;
 
@@ -55,4 +60,11 @@ public class ShopServiceImpl implements ShopService {
     public void deleteById(int theId) {
         shopDAO.deleteById(theId);
     }
+
+    public List<Shop> findAllSortBy(String sortBy, Sort.Direction direction) {
+        Sort sort = Sort.by(direction, sortBy);
+        return shopRepository.findAll(sort);
+    }
+
+
 }
