@@ -1,7 +1,8 @@
 CREATE DATABASE IF NOT EXISTS `shop_record`;
 USE `shop_record`;
 
-ALTER TABLE `shoplist` DROP FOREIGN KEY `shoplist_ibfk_1`;
+
+-- ALTER TABLE `shoplist` DROP FOREIGN KEY `shoplist_ibfk_1`;
 DROP TABLE IF EXISTS `shoplist`;
 DROP TABLE IF EXISTS `storelist`;
 
